@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import {useParams} from 'react-router-dom'; // ✅ 추가
 
 export default function QuizApp() {
+    const {quizId} = useParams(); // ✅ URL에서 quizId 추출
     const [quizData, setQuizData] = useState([]);
     const [answers, setAnswers] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -8,10 +10,10 @@ export default function QuizApp() {
     const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
-        fetch("/kstqb_quiz_dataset_cleaned.json")
+        fetch(`/quiz/${quizId}.json`)  // ✅ 수정
             .then((res) => res.json())
             .then((data) => setQuizData(data));
-    }, []);
+    }, [quizId]); // ✅ 의존성에도 quizId 추가
 
     useEffect(() => {
         if (!isFinished) {
